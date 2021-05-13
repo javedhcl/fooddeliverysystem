@@ -1,0 +1,105 @@
+﻿@using fooddeliverysystem.Models
+@model List<ProductList>
+@{
+    ViewBag.Title = "GetProductList";
+    Layout = Session["UserId"] != null ? "~/Views/Shared/_AppLayout.cshtml" : "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Price (in Rupees)</th>
+            <th>CategoryType</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ProductList prod in Model)
+        {
+        <tr>
+            <td>
+                @prod.ProductId
+            </td>
+            <td>
+                @prod.ProductName
+            </td>
+            <td>
+                @prod.Price
+            </td>
+            <td>
+                @prod.CatId
+            </td>
+            @*<td>
+            @(plan.IsVeg ? "Veg" : "NonVeg")
+        </td>*@
+            <td><i onclick="editPlan(@prod.ProductId)" class="glyphicon glyphicon-pencil"></i> <i onclick="deletePlan(@prod.ProductId)" class="glyphicon glyphicon-trash"></i></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function editProduct(prodId) {
+        $.ajax({
+            type: 'GET',
+            url: "/AddProduct/GetProductList?ProductId=" + prodId,
+            data: null,
+            dataType: 'json',
+            success: function (response) {
+                if (response != null) {
+                    openModal();
+
+                    $("#PlanName").val(response.ProductName);
+                    $("#CatId").val(response.CatId);
+                    //if (response.IsVeg) {
+                    //    $("#IsVegOption").prop("checked", true);
+                    //}
+                    //else {
+                    //    $("#IsNonVegOption").prop("checked", true);
+                    //}
+
+                    $("#Price").val(response.Price);
+
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('error');
+            }, complete: function () {
+
+            }
+        });
+    }
+
+
+    function deletePlan(planId) {
+        $.ajax({
+            type: 'POST',
+            url: "/AddProduct/DeletePlan",
+            data: {
+                planId: planId
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.IsSuccess == true) {
+                    refreshPlanList();
+                    closeModal();
+                    alert("Plan has been deleted successfully.");
+
+                }
+                else {
+                    alert("not deleted");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('error');
+            }, complete: function () {
+
+            }
+        });
+    }
+
+
+</script>
+
