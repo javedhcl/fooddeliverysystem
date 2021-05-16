@@ -9,6 +9,10 @@ namespace fooddeliverysystem.Models
 {
     public class ProductList
     {
+        public ProductList()
+        {
+            
+        }
         [Key]
         public int ProductId { get; set; }
         public string ProductName { get; set; }

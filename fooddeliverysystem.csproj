@@ -149,19 +149,20 @@
       <DependentUpon>202105131017224_initial3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Account.cs" />
+    <Compile Include="DataAccess\Account.cs" />
     <Compile Include="Entities\Category_tbl.cs" />
     <Compile Include="Entities\Crud_Context.cs" />
     <Compile Include="Entities\Login_tbl.cs" />
     <Compile Include="Entities\order_tbl.cs" />
     <Compile Include="Entities\ProductList.cs" />
-    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="DataAccess\ProductRepository.cs" />
     <Compile Include="Entities\product_tbl.cs" />
     <Compile Include="Entities\Register.cs" />
     <Compile Include="Entities\role_tbl.cs" />
-    <Compile Include="Models\SessionManager.cs" />
+    <Compile Include="DataAccess\SessionManager.cs" />
     <Compile Include="Entities\UserRole.cs" />
     <Compile Include="Entities\user_tbl.cs" />
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
