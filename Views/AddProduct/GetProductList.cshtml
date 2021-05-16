@@ -32,26 +32,29 @@
                 @prod.CatId
             </td>
             
-            <td><i onclick="editPlan(@prod.ProductId)" class="glyphicon glyphicon-pencil"></i> <i onclick="deletePlan(@prod.ProductId)" class="glyphicon glyphicon-trash"></i></td>
+            <td style="cursor: pointer">
+                <i onclick="editProduct(@prod.ProductId)" class="glyphicon glyphicon-pencil"></i>
+                <i onclick="deletePlan(@prod.ProductId)" class="glyphicon glyphicon-trash"></i>
+            </td>
         </tr>
         }
     </tbody>
 </table>
 
 <script>
-    function editProduct(prodId) {
+    function editProduct(ProductId) {
         $.ajax({
             type: 'GET',
-            url: "/AddProduct/GetProductList?ProductId=" + prodId,
+            url: "/AddProduct/GetProductDetail?ProductId=" + ProductId,
             data: null,
             dataType: 'json',
             success: function (response) {
                 if (response != null) {
                     openModal();
-                    $("#ProductId").val(response.prodId);
+                    $("#ProductId").val(response.ProductId);
                     $("#PlanName").val(response.ProductName);
-                    $("#CatId").val(response.CatId);
                     $("#Price").val(response.Price);
+                    $("#CatId").val(response.CatId);
 
                 }
             },
@@ -63,23 +66,23 @@
         });
     }
 
-    function deletePlan(planId) {
+    function deletePlan(ProductId) {
         $.ajax({
             type: 'POST',
-            url: "/AddProduct/DeletePlan",
+            url: "/AddProduct/DeleteProduct",
             data: {
                 planId: planId
             },
             dataType: 'json',
             success: function (response) {
                 if (response.IsSuccess == true) {
-                    refreshPlanList();
+                    refreshProductList();
                     closeModal();
-                    alert("Plan has been deleted successfully.");
+                    alert("Product has been deleted successfully.");
 
                 }
                 else {
-                    alert("not deleted");
+                    alert("Not deleted");
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

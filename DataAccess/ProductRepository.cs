@@ -80,7 +80,7 @@ namespace fooddeliverysystem.Models
 
         public bool UpdateProduct(ProductModel model)
         {
-            ProductList pl = cd.Product_TBL.SingleOrDefault(a => a.ProductId == model.ProductId);
+            ProductList pl = cd.Product_TBL.FirstOrDefault(a => a.ProductId == model.ProductId);
             pl.ProductName = model.ProductName;
             pl.Price = model.Price;
             pl.CatId = model.CatId;

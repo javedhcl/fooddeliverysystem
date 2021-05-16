@@ -30,7 +30,7 @@
                     <span class="icon-bar"></span>
 
                 </button>
-                @Html.ActionLink("HOTMESS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Fork & Beans", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             @{
                 SessionManager session = new SessionManager();
@@ -39,11 +39,10 @@
             <ul class="nav navbar-nav">
                 @if (session.isAdmin)
                 {
-                    @*<li>@Html.ActionLink("Menu", "Menu", "Home")</li>*@
-                    <li>@Html.ActionLink("Plan", "Index", "Mess")</li>
-                    <li>@Html.ActionLink("User Details", "Index", "Customer")</li>
+                    <li>@Html.ActionLink("Add Product", "Index", "AddProduct")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Product List", "Index", "AddProduct")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
 
                     @*<li>@Html.ActionLink("Feedbacks", "feedbackIndex", "Feedback")</li>*@
 

@@ -67,23 +67,15 @@
                         <label>Product Price</label>
                         @Html.TextBox("Price", "", new { @class = "form-control", @placeholder = "Product Price" })
                     </div>
-                    @*<div class="form-group">
-                        <label>Meal Type</label><br />
-                        @Html.RadioButton("IsVeg", true, new { @class = "", id = "IsVegOption" }) Veg
-                        @Html.RadioButton("IsVeg", false, new { @class = "", id = "IsNonVegOption" }) NonVeg
-                    </div>*@
-                @*<div class="form-group">
-                    <label>Meal Type</label><br />
-                    @Html.RadioButton("MenuTypeId", 1, new { @class = "", id = "MenuTypeId" }) Veg
-                    @Html.RadioButton("MenuTypeId", 2, new { @class = "", id = "MenuTypeId" }) Non-Veg
-                    @Html.RadioButton("MenuTypeId", 3, new { @class = "", id = "MenuTypeId" }) Fast Food
-                    @Html.RadioButton("MenuTypeId", 3, new { @class = "", id = "MenuTypeId" }) Deserts
-                </div>*@
+                    <div class="form-group">
+                        <label>Product category</label>
+                        @Html.TextBox("CatId", "", new { @class = "form-control", @placeholder = "Category Id" })
+                    </div>
 
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="savePlanDetail()">Save</button>
+                <button type="button" class="btn btn-success" onclick="SaveProduct()">Save</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -93,11 +85,11 @@
 <script>
     function SaveProduct() {
         var productId = parseInt($("#ProductId").val());
-        var productName = $("#ProductName").val();
+        var productName = $("#ProductName").val("");
         var price = $("#Price").val();
         var catId = $("#Category").val();
         var data = {
-            ProductId: planId,
+            ProductId: productId,
             ProductName: productName,
             Price: price,
             CatId: catId
@@ -142,7 +134,7 @@
     function refreshProductList() {
         $.ajax({
             type: 'GET',
-            url: "/AddProduct/GetProdectList",
+            url: "/AddProduct/GetProductList",
             data: {},
             success: function (response) {
                 $("#ProductListDiv").html(response);
@@ -156,10 +148,11 @@
     }
 
     function resetModal() {
-        $("#PlanId").val(0);
-        $("#PlanName").val("");
-        $("#IsVegOption").prop("checked", true);
-        $("#Price").val("");
+        $("#ProductId").val(0);
+        $("#ProductName").val("");
+        //$("#IsVegOption").prop("checked", true);
+        $("#Price").val();
+        $("#Category").val();
     }
 
     function showPlanCreateModal() {

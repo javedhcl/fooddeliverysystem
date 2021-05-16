@@ -55,7 +55,7 @@ namespace fooddeliverysystem.Controllers
         public ActionResult UpdateProduct(ProductModel model)
         {
             bool prodDetail = productRep.UpdateProduct(model);
-            return PartialView("~/Views/AddProduct/GetProductList", prodDetail);
+            return PartialView("~/Views/AddProduct/GetProductDetail", prodDetail);
         }
 
     }
