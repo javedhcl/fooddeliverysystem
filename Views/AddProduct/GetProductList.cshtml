@@ -1,5 +1,5 @@
 ﻿@using fooddeliverysystem.Models
-@model List<ProductList>
+@model List<ProductModel>
 @{
     ViewBag.Title = "GetProductList";
     Layout = Session["UserId"] != null ? "~/Views/Shared/_AppLayout.cshtml" : "~/Views/Shared/_Layout.cshtml";
@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (ProductList prod in Model)
+        @foreach (var prod in Model)
         {
         <tr>
             <td>
@@ -31,9 +31,7 @@
             <td>
                 @prod.CatId
             </td>
-            @*<td>
-            @(plan.IsVeg ? "Veg" : "NonVeg")
-        </td>*@
+            
             <td><i onclick="editPlan(@prod.ProductId)" class="glyphicon glyphicon-pencil"></i> <i onclick="deletePlan(@prod.ProductId)" class="glyphicon glyphicon-trash"></i></td>
         </tr>
         }

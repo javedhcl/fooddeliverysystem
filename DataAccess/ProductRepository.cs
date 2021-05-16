@@ -53,7 +53,7 @@ namespace fooddeliverysystem.Models
             }
         }
 
-        public bool SaveProduct(ProductList model)
+        public bool SaveProduct(ProductModel model)
         {
 
             if (model.ProductId == 0)
@@ -65,7 +65,7 @@ namespace fooddeliverysystem.Models
                 return UpdateProduct(model);
             }
         }
-        public bool AddItem(ProductList model)
+        public bool AddItem(ProductModel model)
         {
             ProductList pl = new ProductList();
             var pls = cd.Product_TBL.Select(a => a.ProductId);
@@ -78,7 +78,7 @@ namespace fooddeliverysystem.Models
             return true;
         }
 
-        public bool UpdateProduct(ProductList model)
+        public bool UpdateProduct(ProductModel model)
         {
             ProductList pl = cd.Product_TBL.SingleOrDefault(a => a.ProductId == model.ProductId);
             pl.ProductName = model.ProductName;

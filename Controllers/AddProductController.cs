@@ -12,16 +12,16 @@ namespace fooddeliverysystem.Controllers
     {
         ProductRepository productRep = new ProductRepository();
         
-
         public ActionResult Index()
         {
-            return View();
+            List<ProductModel> prod = productRep.GetProductList();
+            return View(prod);
         }
 
         public ActionResult GetProductList()
         {
-            List<ProductList> prodList = productRep.GetProductList();
-            return View("ProductList", prodList);
+            List<ProductModel> prodList = productRep.GetProductList();
+            return View("GetProductList", prodList);
         }
 
         [HttpPost]
@@ -45,10 +45,18 @@ namespace fooddeliverysystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddItem()
+        public ActionResult AddItem(ProductModel model)
         {
-            List<ProductList> prodDetail = productRep.GetProductList();
+            bool prodDetail = productRep.AddItem(model);
             return PartialView("~/Views/AddProduct/GetProductList", prodDetail);
         }
+
+        [HttpGet]
+        public ActionResult UpdateProduct(ProductModel model)
+        {
+            bool prodDetail = productRep.UpdateProduct(model);
+            return PartialView("~/Views/AddProduct/GetProductList", prodDetail);
+        }
+
     }
 }

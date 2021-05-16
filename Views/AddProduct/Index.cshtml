@@ -1,89 +1,126 @@
-﻿
-@using fooddeliverysystem.Models
-@model List<ProductList>
+﻿@using fooddeliverysystem.Models;
+@model List<ProductModel>
 @{
-    ViewBag.Title = "GetProductList";
-    Layout = Session["UserId"] != null ? "~/Views/Shared/_AppLayout.cshtml" : "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Product Id</th>
-            <th>Product Name</th>
-            <th>Price (in Rupees)</th>
-            <th>CategoryType</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (ProductList prod in Model)
-        {
-            <tr>
-                <td>
-                    @prod.ProductId
-                </td>
-                <td>
-                    @prod.ProductName
-                </td>
-                <td>
-                    @prod.Price
-                </td>
-                <td>
-                    @prod.CatId
-                </td>
-                @*<td>
-                        @(plan.IsVeg ? "Veg" : "NonVeg")
-                    </td>*@
-                <td><i onclick="editPlan(@prod.ProductId)" class="glyphicon glyphicon-pencil"></i> <i onclick="deletePlan(@prod.ProductId)" class="glyphicon glyphicon-trash"></i></td>
-            </tr>
-        }
-    </tbody>
-</table>
 
+
+<div style="float:right">
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-info btn-md" onclick="showPlanCreateModal()" data-target="#myModal">Add</button>
+</div>
+<h2>Product List</h2>
+
+<div class="row table-responsive" id="messPlanListDiv">
+    @Html.Partial("GetProductList", Model)
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product Detail</h4>
+            </div>
+            <div class="modal-body">
+                <style type="text/css">
+                    .login-form {
+                        width: 340px;
+                        margin: 45px auto;
+                    }
+
+                        .login-form form {
+                            margin-bottom: 20px;
+                            background: #f7f7f7;
+                            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                            padding: 30px;
+                        }
+
+                        .login-form h2 {
+                            margin: 0 0 15px;
+                        }
+
+                    .form-control, .btn {
+                        min-height: 38px;
+                        border-radius: 2px;
+                    }
+
+                    .btn {
+                        font-size: 15px;
+                        font-weight: bold;
+                    }
+                </style>
+
+                <div class="">
+                    <h2 class="text-center">Product Details</h2>
+                    @Html.Hidden("ProductId", 0)
+                    <div class="form-group">
+                        <label>Plan Name</label>
+                        @Html.TextBox("ProductName", "", new { @class = "form-control", @placeholder = "Product Name" })
+                    </div>
+                    <div class="form-group">
+                        <label>Product Price</label>
+                        @Html.TextBox("Price", "", new { @class = "form-control", @placeholder = "Product Price" })
+                    </div>
+                    @*<div class="form-group">
+                        <label>Meal Type</label><br />
+                        @Html.RadioButton("IsVeg", true, new { @class = "", id = "IsVegOption" }) Veg
+                        @Html.RadioButton("IsVeg", false, new { @class = "", id = "IsNonVegOption" }) NonVeg
+                    </div>*@
+                @*<div class="form-group">
+                    <label>Meal Type</label><br />
+                    @Html.RadioButton("MenuTypeId", 1, new { @class = "", id = "MenuTypeId" }) Veg
+                    @Html.RadioButton("MenuTypeId", 2, new { @class = "", id = "MenuTypeId" }) Non-Veg
+                    @Html.RadioButton("MenuTypeId", 3, new { @class = "", id = "MenuTypeId" }) Fast Food
+                    @Html.RadioButton("MenuTypeId", 3, new { @class = "", id = "MenuTypeId" }) Deserts
+                </div>*@
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="savePlanDetail()">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script>
-    function editProduct(prodId) {
-        $.ajax({
-            type: 'GET',
-            url: "/AddProduct/GetProductList?ProductId=" + prodId,
-            data: null,
-            dataType: 'json',
-            success: function (response) {
-                if (response != null) {
-                    openModal();
+    function SaveProduct() {
+        var productId = parseInt($("#ProductId").val());
+        var productName = $("#ProductName").val();
+        var price = $("#Price").val();
+        var catId = $("#Category").val();
+        var data = {
+            ProductId: planId,
+            ProductName: productName,
+            Price: price,
+            CatId: catId
+        };
 
-                    $("#PlanName").val(response.ProductName);
-                    $("#CatId").val(response.CatId);
-                    $("#Price").val(response.Price);
-
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('error');
-            }, complete: function () {
-
-            }
-        });
-    }
-
-
-    function deletePlan(planId) {
         $.ajax({
             type: 'POST',
-            url: "/AddProduct/DeletePlan",
-            data: {
-                planId: planId
-            },
-            dataType: 'json',
+            url: "/AddProduct/SaveProduct",
+            data: data,
             success: function (response) {
                 if (response.IsSuccess == true) {
-                    refreshPlanList();
                     closeModal();
-                    alert("Plan has been deleted successfully.");
+                    if (planId > 0) {
+                        alert('Updated successfully');
+                    }
+                    else {
+                        alert('Saved successfully');
+                    }
 
+                    refreshProductList();
                 }
                 else {
-                    alert("not deleted");
+                    alert("not saved");
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -93,5 +130,42 @@
             }
         });
     }
-</script>
 
+    function openModal() {
+        $('#myModal').modal('show');
+    }
+    function closeModal() {
+
+        $('#myModal').modal('hide');
+    }
+
+    function refreshProductList() {
+        $.ajax({
+            type: 'GET',
+            url: "/AddProduct/GetProdectList",
+            data: {},
+            success: function (response) {
+                $("#ProductListDiv").html(response);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('error');
+            }, complete: function () {
+
+            }
+        });
+    }
+
+    function resetModal() {
+        $("#PlanId").val(0);
+        $("#PlanName").val("");
+        $("#IsVegOption").prop("checked", true);
+        $("#Price").val("");
+    }
+
+    function showPlanCreateModal() {
+        openModal();
+        resetModal();
+    }
+
+
+</script>
