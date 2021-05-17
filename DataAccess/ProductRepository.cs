@@ -30,10 +30,10 @@ namespace fooddeliverysystem.Models
             return true;
         }
 
-        internal bool SaveProduct(ProductRepository model)
-        {
-            throw new NotImplementedException();
-        }
+        //internal bool SaveProduct(ProductRepository model)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public ProductList GetProductDetail(int prodId)
         {

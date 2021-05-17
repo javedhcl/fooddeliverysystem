@@ -46,6 +46,7 @@
 <div class="login-form">
     @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { }))
     {
+        @Html.ValidationSummary(true, "");
         <h2 class="text-center">Sign In</h2>
         <div class="form-group">
             @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Username *" })

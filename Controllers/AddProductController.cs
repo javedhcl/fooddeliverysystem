@@ -25,7 +25,7 @@ namespace fooddeliverysystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveProduct(ProductRepository model)
+        public ActionResult SaveProduct(ProductModel model)
         {
             bool isSuccess = productRep.SaveProduct(model);
             return Json(new { IsSuccess = isSuccess });
@@ -48,14 +48,14 @@ namespace fooddeliverysystem.Controllers
         public ActionResult AddItem(ProductModel model)
         {
             bool prodDetail = productRep.AddItem(model);
-            return PartialView("~/Views/AddProduct/GetProductList", prodDetail);
+            return RedirectToAction("GetProductList");
         }
 
         [HttpGet]
         public ActionResult UpdateProduct(ProductModel model)
         {
             bool prodDetail = productRep.UpdateProduct(model);
-            return PartialView("~/Views/AddProduct/GetProductDetail", prodDetail);
+            return RedirectToAction("GetProductList");
         }
 
     }
