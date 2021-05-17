@@ -37,7 +37,7 @@ namespace fooddeliverysystem.Models
 
         public ProductList GetProductDetail(int prodId)
         {
-            var prodDetail = cd.Product_TBL.SingleOrDefault(a => a.ProductId == prodId);
+            var prodDetail = cd.Product_TBL.FirstOrDefault(a => a.ProductId == prodId);
             if (prodDetail != null)
             {
                 return new ProductList
